@@ -2,9 +2,9 @@
 name: My First Workflow
 
 # Triggers for the workflow
-on:
+on: 
   # Manual trigger using the workflow_dispatch event
-  workflow_dispatch
+  workflow_dispatch:
 
   # Automatic trigger on push events to the main branch
   push:
