@@ -1,3 +1,7 @@
+# The workflow is triggered by events related to pull requests on the features branch and includes synchronized, (i.e., updated due to a new commit).
+# The environment key is used to specify a unique environment name for each run, based on the github.run_number.
+# einaregilsson/beanstalk-deploy@v21(opens in a new tab) is used to deploy the application to AWS Elastic Beanstalk.
+
 # name: PR Environment
 # on:
 #   pull_request:
