@@ -1,0 +1,31 @@
+# name: PR Environment
+# on:
+#   pull_request:
+#     branches: [features]
+#     types: [reopened, opened, synchronize, edited]
+
+# jobs:
+#   build:
+#     runs-on: ubuntu-latest
+#     environment: 
+#       name: 'dev-${{ github.run_number }}'
+
+#     steps:
+#     - name: Checkout
+#       uses: actions/checkout@v3 
+
+#     - name: Generate deployment package
+#       run: |
+#         zip -r application.zip . -x '*.git*'
+
+#     - name: Deploy to unique environment in Elastic BeanStalk
+#       uses: einaregilsson/beanstalk-deploy@v21
+#       with:
+#         aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+#         aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+#         aws_session_token: ${{ secrets.AWS_SESSION_TOKEN }}
+#         application_name: my-node-app
+#         environment_name: my-node-app-pr-${{ github.event.pull_request.number }}
+#         version_label: version-${{ github.run_number }}
+#         region: us-east-1
+#         deployment_package: application.zip
