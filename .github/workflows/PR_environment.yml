@@ -2,34 +2,38 @@
 # The environment key is used to specify a unique environment name for each run, based on the github.run_number.
 # einaregilsson/beanstalk-deploy@v21(opens in a new tab) is used to deploy the application to AWS Elastic Beanstalk.
 
-# name: PR Environment
+name: PR Environment
 # on:
 #   pull_request:
 #     branches: [features]
 #     types: [reopened, opened, synchronize, edited]
 
-# jobs:
-#   build:
-#     runs-on: ubuntu-latest
-#     environment: 
-#       name: 'dev-${{ github.run_number }}'
+on:
+  # Manual trigger using the workflow_dispatch event
+  workflow_dispatch:
 
-#     steps:
-#     - name: Checkout
-#       uses: actions/checkout@v3 
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    environment: 
+      name: 'dev-${{ github.run_number }}'
 
-#     - name: Generate deployment package
-#       run: |
-#         zip -r application.zip . -x '*.git*'
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3 
 
-#     - name: Deploy to unique environment in Elastic BeanStalk
-#       uses: einaregilsson/beanstalk-deploy@v21
-#       with:
-#         aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
-#         aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-#         aws_session_token: ${{ secrets.AWS_SESSION_TOKEN }}
-#         application_name: my-node-app
-#         environment_name: my-node-app-pr-${{ github.event.pull_request.number }}
-#         version_label: version-${{ github.run_number }}
-#         region: us-east-1
-#         deployment_package: application.zip
+    - name: Generate deployment package
+      run: |
+        zip -r application.zip . -x '*.git*'
+
+    - name: Deploy to unique environment in Elastic BeanStalk
+      uses: einaregilsson/beanstalk-deploy@v21
+      with:
+        aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws_session_token: ${{ secrets.AWS_SESSION_TOKEN }}
+        application_name: my-node-app
+        environment_name: my-node-app-pr-${{ github.event.pull_request.number }}
+        version_label: version-${{ github.run_number }}
+        region: us-east-1
+        deployment_package: application.zip
